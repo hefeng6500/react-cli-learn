@@ -7,19 +7,33 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      code: "",
       username: "admin",
       password: "hefeng6500"
     }
     this.login = this.login.bind(this)
+    this.getCode = this.getCode.bind(this)
   }
 
-  login() {
+  componentDidMount(){
+    this.getCode()
+  }
+
+  getCode= async ()=> {
+    let code = await server.getCode()
+    this.setState({
+      code: code.data.data
+    })
+  }
+
+  login= () => {
     let data = {
       username: this.state.username,
       password: this.state.password
     }
     server.login(data).then(res => {
-      console.log(res)
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token_exp', new Date().getTime());
     }).catch(err => {
       console.log(err)
     })
@@ -41,82 +55,11 @@ class App extends Component {
         <Input type="text" value={this.state.username} onChange={this.usernameChange} />
         <Input type="password" value={this.state.password} onChange={this.passwordChange} />
         <Button onClick={this.login}>登录</Button>
+        <Button onClick={this.getCode}>验证码获取</Button>
+        <div dangerouslySetInnerHTML={{__html: this.state.code}}></div>
       </div>
     )
   }
 }
-
-
-// class App extends Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       items: [
-//         { id: '1', text: 'first one' },
-//         { id: '2', text: 'second one' }
-//       ],
-//       inputValue: ""
-//     }
-
-//     this.handleChange = this.handleChange.bind(this)
-//     this.handleAdd = this.handleAdd.bind(this)
-//   }
-
-//   handleChange = (e) => {
-//     this.setState({ inputValue: e.target.value })
-//   }
-
-//   handleAdd = () => {
-//     if(!this.state.inputValue){
-//       return
-//     }
-//     let newItem = {
-//       id: Date.now(),
-//       text: this.state.inputValue
-//     }
-//     this.setState(state => ({
-//       items: state.items.concat(newItem),
-//       inputValue: ""
-//     }))
-//   }
-
-//   handleDelete = (id) => {
-//     // let newItems = this.state.items.concat()
-//     // newItems.filter(item=>item.id!==id)
-//     this.setState({
-//       items: this.state.items.filter(item => item.id !== id)
-//     })
-//   }
-
-//   render() {
-//     return (
-//       <div className="container">
-//         <h1>Todolist</h1>
-//         <Input placeholder="Basic usage" className="myInput" value={this.state.inputValue} onChange={this.handleChange} />
-//         <Button type="primary" className="btn" onClick={this.handleAdd}>add Data</Button>
-//         <Todolist items={this.state.items} handleDelete={id => this.handleDelete(id)} />
-//       </div>
-//     )
-//   }
-// }
-
-
-// class Todolist extends Component {
-//   render() {
-//     return (
-//       <div className="todolist">
-//         <ul>
-//           {
-//             this.props.items.map(item => {
-//               return (
-//                 <li key={item.id}>{item.text} <span><Icon type="close" onClick={() => this.props.handleDelete(item.id)} /></span></li>
-//               )
-//             })
-//           }
-//         </ul>
-//       </div>
-//     )
-//   }
-// }
 
 export default App;

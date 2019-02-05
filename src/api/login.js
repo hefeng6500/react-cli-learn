@@ -7,3 +7,10 @@ export const login = (data)=>{
     data
   })
 }
+
+export const getCode = ()=>{
+  return request({
+    method: 'GET',
+    url: '/api/getCode',
+  })
+}
