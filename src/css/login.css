@@ -1,0 +1,17 @@
+.container{
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url('../static/images/login_background.png') no-repeat;
+  background-size: cover;
+}
+
+/* 8D99CD */
+.userBox{
+  position: absolute;
+  top: 153px;
+  left: 725px;
+  width: 345px;
+  height: 427px;
+  background: #F8F8F8;
+}

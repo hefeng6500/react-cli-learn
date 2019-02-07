@@ -14,7 +14,7 @@ const CONFIG = {
   renew: false, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
 };
 
-const session = ()=>{
+const session = (app)=>{
   return async (ctx,next)=>{
 
   }

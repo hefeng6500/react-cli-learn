@@ -14,3 +14,10 @@ export const getCode = ()=>{
     url: '/api/getCode',
   })
 }
+
+export const test = ()=>{
+  return request({
+    method: 'GET',
+    url: '/api',
+  })
+}

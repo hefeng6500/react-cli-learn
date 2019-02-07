@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Input, Button, Icon } from 'antd';
 import './App.css';
 import * as server from './api/login'
+import Login from './pages/login'
 
 class App extends Component {
   constructor(props) {
@@ -13,11 +14,20 @@ class App extends Component {
     }
     this.login = this.login.bind(this)
     this.getCode = this.getCode.bind(this)
+    this.test = this.test.bind(this)
   }
 
   componentDidMount(){
-    this.getCode()
+    // this.getCode()
   }
+	
+	test = async () => {
+		server.test().then(res => {
+		  console.log(res)
+		}).catch(err => {
+		  console.log(err)
+		})
+	}
 
   getCode= async ()=> {
     let code = await server.getCode()
@@ -51,12 +61,15 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div>Home</div>
-        <Input type="text" value={this.state.username} onChange={this.usernameChange} />
-        <Input type="password" value={this.state.password} onChange={this.passwordChange} />
-        <Button onClick={this.login}>登录</Button>
-        <Button onClick={this.getCode}>验证码获取</Button>
-        <div dangerouslySetInnerHTML={{__html: this.state.code}}></div>
+				<Login></Login>
+
+          {/* <div>Home</div>
+          <Input type="text" value={this.state.username} onChange={this.usernameChange} />
+          <Input type="password" value={this.state.password} onChange={this.passwordChange} />
+          <Button onClick={this.login}>登录</Button>
+          <Button onClick={this.getCode}>验证码获取</Button>
+          <Button onClick={this.test}>测试</Button>
+          <div dangerouslySetInnerHTML={{__html: this.state.code}}></div> */}
       </div>
     )
   }
