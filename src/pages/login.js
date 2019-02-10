@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Button, Icon } from 'antd';
+import {withRouter} from "react-router-dom";
+import md5 from 'md5'
 import "../css/login.css"
 
 import * as server from '../api/login'
@@ -9,11 +11,18 @@ class Login extends Component {
 		super(props)
 		this.state = {
 			username: "admin",
-			password: "hefeng6500"
+			password: "hefeng6500",
+			code: "", // 服务器返回的验证码
+			validCode: ""
 		}
 		this.usernameChange = this.usernameChange.bind(this)
 		this.passwordChange = this.passwordChange.bind(this)
 		this.login = this.login.bind(this)
+		this.getCode = this.getCode.bind(this)
+	}
+
+	componentDidMount(){
+		this.getCode()
 	}
 
 	usernameChange(e){
@@ -24,14 +33,28 @@ class Login extends Component {
 		this.setState({password: e.target.value})
 	}
 
+	getCode(){
+		server.getCode().then( res => {
+			this.setState({
+				code: res.data.data
+			})
+		})
+	}
+
+	validCodeChange(e){
+		this.setState({validCode: e.target.value})
+	}
+
 	login(){
 		let data = {
       username: this.state.username,
-      password: this.state.password
+			password: md5(this.state.password),
+			code: this.state.validCode
     }
     server.login(data).then(res => {
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('token_exp', new Date().getTime());
+			localStorage.setItem('token_exp', new Date().getTime());
+			this.props.history.push("/")
     }).catch(err => {
       console.log(err)
     })
@@ -42,10 +65,12 @@ class Login extends Component {
 			<div>
 				<div className="container">
 					<div className="userBox">
-						<span className="title">兰亭古墨</span>
-						<span className="welcome">Welcome!</span>
-						<Input className="login-input" type="text" value={this.state.username} onChange={this.usernameChange} />
-						<Input className="login-input" type="password" value={this.state.password} onChange={this.passwordChange} />
+						<h1 className="title">Wisdom Blog</h1>
+						<p className="welcome">Welcome!</p>
+						<input className="login-input" placeholder="请输入用户名" type="text" value={this.state.username} onChange={this.usernameChange} />
+						<input className="login-input" placeholder="请输入密码" type="password" value={this.state.password} onChange={this.passwordChange} />
+						<input className="login-input" placeholder="请输入验证码" type="text" value={this.state.validCode} onChange={this.validCodeChange} />
+						<div className="validCode" onClick={this.getCode} dangerouslySetInnerHTML={{__html: this.state.code }}></div>
 						<Button className="login-btn" onClick={this.login}>登录</Button>
 					</div>
 				</div>
@@ -54,4 +79,4 @@ class Login extends Component {
 	}
 }
 
-export default Login
+export default withRouter(Login)
