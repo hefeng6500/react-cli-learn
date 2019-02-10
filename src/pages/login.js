@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon } from 'antd';
+import ReactDOM from "react-dom"
+import { Input, Button, Icon,Alert } from 'antd';
 import {withRouter} from "react-router-dom";
 import md5 from 'md5'
 import "../css/login.css"
 
+import { mountNode } from '../utils/someutils.js'
 import * as server from '../api/login'
 
 class Login extends Component {
@@ -54,6 +56,7 @@ class Login extends Component {
     server.login(data).then(res => {
       localStorage.setItem('token', res.data.token);
 			localStorage.setItem('token_exp', new Date().getTime());
+			// ReactDOM.render(<Alert message="Success Tips" type="success" showIcon />,mountNode)
 			this.props.history.push("/")
     }).catch(err => {
       console.log(err)

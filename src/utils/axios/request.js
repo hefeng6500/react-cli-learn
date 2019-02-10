@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import axios from 'axios'
-import {mountNode} from '../someutils.js'
+import { mountNode } from '../someutils.js'
 import { Alert } from 'antd';
 
 let requset = axios.create({
@@ -13,7 +13,7 @@ let requset = axios.create({
 requset.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
-        if(token){
+        if (token) {
             config.headers.common['Authorization'] = 'Bearer ' + token;
         }
         return config;
@@ -29,7 +29,7 @@ requset.interceptors.response.use(
         let res = response.data
         if (response.status === 200) {
             return res;
-        } else {
+        }else {
             ReactDOM.render(<Alert message="Success Tips" type="success" showIcon />,mountNode)
         }
     },
