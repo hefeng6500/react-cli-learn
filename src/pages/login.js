@@ -43,7 +43,7 @@ class Login extends Component {
 		})
 	}
 
-	validCodeChange(e){
+	validCodeChange = (e)=> {
 		this.setState({validCode: e.target.value})
 	}
 

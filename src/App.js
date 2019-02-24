@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <div>
-				<AppRouter></AppRouter>
+        <AppRouter></AppRouter>
       </div>
     )
   }
