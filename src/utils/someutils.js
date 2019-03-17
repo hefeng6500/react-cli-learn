@@ -1,1 +1,0 @@
-export const mountNode = document.getElementById("root")

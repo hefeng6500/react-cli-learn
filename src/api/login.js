@@ -11,13 +11,13 @@ export const login = (data)=>{
 export const getCode = ()=>{
   return request({
     method: 'GET',
-    url: '/api/getCode',
+    url: '/api/getCode'
   })
 }
 
 export const test = ()=>{
   return request({
     method: 'GET',
-    url: '/api',
+    url: '/api'
   })
 }

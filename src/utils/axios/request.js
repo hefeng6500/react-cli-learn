@@ -1,13 +1,16 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import axios from 'axios'
-import { mountNode } from '../someutils.js'
-import { Alert } from 'antd';
+import { message } from 'antd';
 
+
+axios.defaults.withCredentials = true
 let requset = axios.create({
     baseURL: 'http://localhost:3001',
-    timeout: 5000
+    timeout: 5000,
 });
+
+
 
 // 添加请求拦截器
 requset.interceptors.request.use(
@@ -30,15 +33,11 @@ requset.interceptors.response.use(
         if (response.status === 200) {
             return res;
         }else {
-            ReactDOM.render(<Alert message="Success Tips" type="success" showIcon />,mountNode)
+            console.log(res)
         }
     },
     (error) => {
-        // Message({
-        //     message: error.message,
-        //     type: 'error',
-        //     duration: 5 * 1000
-        // })
+        message.error(`${error.message}`)
         return Promise.reject(error);
     });
 
